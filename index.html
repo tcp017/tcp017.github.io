@@ -318,13 +318,13 @@
                                                                                 tabCell = tr.insertCell(-1);
                                                                                 tabCell.innerHTML = json.records[i].Information;
                             }
-                for (var i = 1; i < json.records.length; i++) {
+                for (var j = 1; j < json.records.length; i++) {
                 
                             tr = table.insertRow(-1);
                                                                                 var tabCell = tr.insertCell(-1);
-                                tabCell.innerHTML = json.records[i].Heading;
+                                tabCell.innerHTML = json.records[j].Heading;
                                                                                 tabCell = tr.insertCell(-1);
-                                                                                tabCell.innerHTML = json.records[i].Information2;
+                                                                                tabCell.innerHTML = json.records[j].Information2;
                             }
                 
                         // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
