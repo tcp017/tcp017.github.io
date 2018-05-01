@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+                <html>
+                <head>
+                
+                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+                <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+                
+                
+                
+                
+                <style>
+                
+                        table, th, td
+                        {
+                            margin: auto;
+			    table-layout:auto;
+                            border:solid 1px #333;
+                            width:100%;
+                            font:12px Verdana;
+                            border-collapse: collapse;
+                            text-align: center;
+                            
+                            
+                        }
+                        th {
+                            table-layout:auto;
+                            font-weight:bold;                            
+                        }
+                
+                #loader {
+                  margin: auto;
+                  border: 8px solid #f3f3f3;
+                  border-radius: 50%;
+                  border-top: 8px solid blue;
+                  border-bottom: 8px solid blue;
+                  width: 16px;
+                  height: 16px;
+                  -webkit-animation: spin 2s linear infinite;
+                  animation: spin 2s linear infinite;
+                  visibility:hidden;
+                }
+                
+                @-webkit-keyframes spin {
+                  0% { -webkit-transform: rotate(0deg); }
+                  100% { -webkit-transform: rotate(360deg); }
+                }
+                
+                @keyframes spin {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+                }
+                
+                </style>
+                <!--script src="cordova.js"></script>-->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+                
+                
+                <form >
+                
+                Select Pile Pipe Number:
+                <select id="PipeList" onchange="Test()">
+                <option selected="selected">--Please Select--</option>
+				<option>T1BP01</option>
+				<option>T1BP02</option>
+				<option>T1BP03A</option>
+                <option>T1BP03B</option>
+                <option>T1BP04</option>
+                <option>T1BP05</option>
+                <option>T1BP06</option>
+                <option>T1BP07A</option>
+                <option>T1BP07B</option>
+                <option>T1BP08</option>
+                <option>T1BP09</option>
+                <option>T2BP01</option>
+                <option>T2BP02</option>
+                <option>T2BP03</option>
+                <option>T2BP04</option>
+                <option>T2BP05</option>
+                <option>T2BP06</option>
+                <option>T2BP07</option>
+                <option>T2BP08</option>
+                <option>T2BP09</option>
+                <option>T2BP10</option>
+                <option>T2BP11</option>
+                <option>T3BP01</option>
+                <option>T3BP02</option>
+                <option>T3BP03</option>
+                <option>T3BP04</option>
+                <option>T3BP05</option>
+                <option>T3BP06</option>
+                <option>T3BP07</option>
+                <option>T3BP08</option>
+                <option>T3BP09</option>
+                <option>T3BP10</option>
+                <option>T3BP11</option>
+                <option>T3BP12</option>
+                <option>T3BP13</option>
+                <option>T3BP14</option>
+                <option>T3BP15</option>
+
+               
+                
+                
+                </select>
+                
+                <name ="name" id="name">
+                
+                
+                </form>
+                <br>
+                
+                <input type="button" onclick="update_value()" value="Read" />
+                <!--<input type="button" onclick="read_value()" value="Read" />-->
+                <!--<a href="https://docs.google.com/spreadsheets/d/1_LNyU2DB0Tg3caKA7klePACWOgASbek4I5LqOysxFaY/edit?usp=sharing" rel="external">Click here to open Spread Sheet </a>-->
+                 <body>
+                
+                
+                
+                <div id="loader" ></div>
+                
+                <p id="re" ></p>
+                
+                </body>
+                <div id="showData" align="center"></div>
+                
+                
+                
+                <script>
+                
+                  var script_url = "https://script.google.com/macros/s/AKfycbwNLT8dALqnuqXB8-i_ANCCyssf3Kw22AcqEIOTmcVkP4GekBI/exec";
+                
+                  // Make an AJAX call to Google Script
+                
+                
+                
+                
+                
+                
+                
+                  function update_value(){
+                                $("#re").css("visibility","hidden");
+                     document.getElementById("loader").style.visibility = "visible";
+                
+                
+                var id1=                $("#id").val();
+                                var name= $("#name").val();
+                
+                
+                
+                    var url = script_url+"?callback=ctrlq&name="+name+"&id="+id1+"&action=update";
+                
+                
+                    var request = jQuery.ajax({
+                      crossDomain: true,
+                      url: url ,
+                      method: "GET",
+                      dataType: "jsonp"
+                    });
+                
+                
+                  }
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                  // print the returned data
+                  function ctrlq(e) {
+                
+                
+                                $("#re").html(e.result);
+                                $("#re").css("visibility","visible");
+                                read_value();
+                
+                  }
+                
+                
+                
+                
+                function read_value() {
+                
+                $("#re").css("visibility","hidden");
+                
+                   document.getElementById("loader").style.visibility = "visible";
+                var url = script_url+"?action=read";
+                
+                $.getJSON(url, function (json) {
+                console.log(json)
+                    // Set the variables from the results array
+                
+                
+                
+                
+                        // CREATE DYNAMIC TABLE.
+                        var table = document.createElement("table");
+                
+                
+                
+                        var header = table.createTHead();
+                        var row = header.insertRow(0);
+                                                var cell1 = row.insertCell(0);
+                                                cell1.innerHTML = $("#name").val() + " Information";
+                                                cell1.colSpan = 5;
+                                                cell1.style.fontWeight='bold';
+                
+                        // ADD JSON DATA TO THE TABLE AS ROWS.
+                        for (var i = 1; i < json.records.length; i++) {
+                
+                            tr = table.insertRow(-1);
+                             var tabCell = tr.insertCell(-1);
+                               	 tabCell.innerHTML = json.records[i].Heading;
+                     		 var tabCell1 = tr.insertCell(-1);
+                                 tabCell1.innerHTML = json.records[i].Information;
+							 var tabCell2 = tr.insertCell(-1);
+								 tabCell2.innerHTML = json.records[i].Information1;                             
+ 							 var tabCell3 = tr.insertCell(-1);
+                                 tabCell3.innerHTML = json.records[i].Information2;                            
+ 							 var tabCell4 = tr.insertCell(-1);
+                                 tabCell4.innerHTML = json.records[i].Information3;                                                                               
+                            }
+ 
+
+               
+                
+                        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+                        var divContainer = document.getElementById("showData");
+                        divContainer.innerHTML = "";
+                        divContainer.appendChild(table);
+                                                document.getElementById("loader").style.visibility = "hidden";
+                                                $("#re").css("visibility","visible");
+                    });
+                                }
+                
+                
+                function Test()
+                {
+                var PipeList=document.getElementById("PipeList");
+                document.getElementById("name").value=PipeList.options[PipeList.selectedIndex].text;
+                }
+                
+                  </script>
+                
+                </head>
+                
+                <div align="center">
+                <p> | All Rights Reserved |</p>
+                </div>
+                </html>
